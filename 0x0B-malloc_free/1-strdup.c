@@ -3,9 +3,8 @@
 #include <string.h>
 
 /**
- * _strdup - Returns a pointer to a new string that is a double of the string str.
+ * _strdup - Returns a pointer to a new string.
  * @str: The char to duplicate.
- *
  * Return: A pointer to the duplicate string, NULL otherwise. 
  */
 char *_strdup(char *str)
