@@ -9,7 +9,7 @@
 char **strtow(char *str)
 {
 	char **words;
-	int i, j, k, l, m, n = 0, len = 0;
+	int i, j, k, l, n = 0, len = 0;
 
 	if (str == NULL || str[0] == '\0')
 		return (NULL);
