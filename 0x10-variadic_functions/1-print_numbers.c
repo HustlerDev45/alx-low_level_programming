@@ -10,15 +10,15 @@
  */
 void print_numbers(const char *separator, const unsigned int n, ...)
 {
-	va_list ;
+	va_list nox;
 	unsigned int i;
 
-	va_start(nal, n);
+	va_start(nox, n);
 
 	for (i = 0; i < n; i++)
 	{
-		int num = va_arg(nal, int);
-		printf("%d", num);
+		int nox = va_arg(nox, int);
+		printf("%d", nox);
 
 		if (i < n - 1)
 		{
@@ -29,6 +29,6 @@ void print_numbers(const char *separator, const unsigned int n, ...)
 		}
 	}
 
-	va_end(nal);
+	va_end(nox);
 	printf("\n");
 }
