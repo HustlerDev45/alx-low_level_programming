@@ -9,20 +9,13 @@
  */
 void array_iterator(int *array, size_t size, void (*action)(int))
 {
-    if (array != NULL && action != NULL)
-    {
-        for (size_t i = 0; i < size; i++)
-        {
-            action(array[i]);
-        }
-    }
-}
+	unsigned int i;
 
-/**
- * print_element - A sample action function to print an integer element.
- * @n: The integer to print.
- */
-void print_element(int n)
-{
-    printf("%d\n", n);
+	if (array == NULL || action == NULL)
+		return;
+
+	for (i = 0; i < size; i++)
+	{
+		action(array[i]);
+	}
 }
