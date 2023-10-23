@@ -1,5 +1,4 @@
 #include "lists.h"
-#include <sdtlib.h>
 
 /**
  * free_listint2 - frees a linked listint_t list.
