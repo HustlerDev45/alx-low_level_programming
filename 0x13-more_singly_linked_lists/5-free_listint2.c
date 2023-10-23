@@ -1,7 +1,8 @@
 #include "lists.h"
+#include <sdtlib.h>
 
 /**
- * free_listint2 - frees a linked listint_t list and sets the head to NULL.
+ * free_listint2 - frees a linked listint_t list.
  * @head: double pointer to the start of the list.
  */
 void free_listint2(listint_t **head)
@@ -11,12 +12,12 @@ void free_listint2(listint_t **head)
 	if (head == NULL)
 		return;
 
-		while (*head)
-		{
-			temp = (*head)->next;
-			free(*head);
-			*head = temp;
-		}
+	while (*head)
+	{
+		temp = *head;
+		*head = (*head)->next;
+		free(temp);
+	}
 
 	*head = NULL;
 }
