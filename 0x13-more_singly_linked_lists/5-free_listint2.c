@@ -1,5 +1,4 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
  * free_listint2 - frees a linked listint_t list and sets the head to NULL.
@@ -14,9 +13,9 @@ void free_listint2(listint_t **head)
 
 		while (*head)
 		{
-			temp = *head;
-			*head = (*head)->next;
-			free(temp);
+			temp = (*head)->next;
+			free(*head);
+			*head = temp;
 		}
 
 	*head = NULL;
