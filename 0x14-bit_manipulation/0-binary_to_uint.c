@@ -1,13 +1,12 @@
 #include "main.h"
-#include <stdlib.h>
 
 /**
- * binaire_to_uint - Convert a binary number to an unsigned int.
+ * binary_to_uint - Converts a binary number to an unsigned int.
  * @b: Pointer to a string.
  *
  * Return: The converted number, or 0 if b is NULL.
  */
-unsigned int binaire_to_uint(const char *b)
+unsigned int binary_to_uint(const char *b)
 {
 	unsigned int num = 0;
 
@@ -22,5 +21,5 @@ unsigned int binaire_to_uint(const char *b)
 		num = (num << 1) | (*b - '0');
 	}
 
-	return num;
+	return (num);
 }
