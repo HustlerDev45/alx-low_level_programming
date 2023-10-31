@@ -41,13 +41,12 @@ int main(int argc, char *argv[])
 	if (fd_from == -1)
 		error_handler(98, argv[1]);
 
-	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	fd_to = open(argv[2], O_CREAT | O_WRONLY | O_APPEND, 0664);
 	if (fd_to == -1)
 		error_handler(99, argv[2]);
 
 	while ((n = read(fd_from, buffer, BUFFER_SIZE)) > 0)
-		if (write(fd_to, buffer, len) != n)
+		if (write(fd_to, buffer, n) != n)
 			error_handler(99, argv[2]);
 
 	if (n == -1)
