@@ -1,82 +1,59 @@
 #include "main.h"
 
-/**
- * create_buffer - Memory allocation for a buffer.
- * @file: Name of the file buffer is storing chars for.
- *
- * Return: A pointer to the new allocated buffer.
+/** 
+ * error_handler - Handle and prints error message.
+ * @err: Error code.
+ * @file: Name of the file.
  */
-char *create_buffer(char *file)
+void error_handler(int err, char *file)
 {
-	char *buffer;
-
-	buffer = malloc(sizeof(char) * BUFFER_SIZE);
-	if (buffer == NULL)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
-		exit(99);
-	}
-
-	return (buffer);
+        if (err == 97)
+                dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+        else if (err == 98)
+                dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file);
+        else if (err == 99)
+                dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
+        else
+                dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", err);
+        exit(err);
 }
 
 /**
- * close_file - Closes file descriptors.
- * @fd: The file descriptor to be closed.
- */
-void close_file(int fd)
-{
-	int c;
-
-	c = close(fd);
-	if (c == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
-		exit(100);
-	}
-}
-
-/**
- * main - Duplicate the contents of a file to another file.
- * @argc: Number of arguments supplied to the program.
+ * main - Duplicate the content of a file to another.
+ * @argc: Number of arguments.
  * @argv: Array.
  *
- * Return: 0 (Success), or a positive integer if an error occurs.
+ * Return: 0 (Success), otherwise error code.
  */
 int main(int argc, char *argv[])
 {
-	int from, to, r, w;
-	char *buffer;
+        int fd_from, fd_to;
+        ssize_t n;
+        char buffer[BUFFER_SIZE];
 
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
-	}
+        if (argc != 3)
+                error_handler(97, NULL);
 
-	buffer = create_buffer(argv[2]);
-	from = open(argv[1], O_RDONLY);
-	if (from == -1)
-		error_handler(98, argv[1]);
+        fd_from = open(argv[1], O_RDONLY);
+        if (fd_from == -1)
+                error_handler(98, argv[1]);
 
-	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (to == -1)
-		error_handler(99, argv[2]);
+        fd_to = open(argv[2], O_CREAT | O_WRONLY | O_APPEND, 0664);
+        if (fd_to == -1)
+                error_handler(99, argv[2]);
 
-	do {
-		r = read(from, buffer, BUFFER_SIZE);
-		if (r == -1)
-			error_handler(98, argv[1]);
+        while ((n = read(fd_from, buffer, BUFFER_SIZE)) > 0)
+                if (write(fd_to, buffer, n) != n)
+                        error_handler(99, argv[2]);
 
-		w = write(to, buffer, r);
-		if (w == -1 || w != r)
-			error_handler(99, argv[2]);
+        if (n == -1)
+                error_handler(98, argv[1]);
 
-	} while (r > 0);
+        if (close(fd_from) == -1)
+                error_handler(fd_from, NULL);
 
-	free(buffer);
-	close_file(from);
-	close_file(to);
+        if (close(fd_to) == -1)
+                error_handler(fd_to, NULL);
 
-	return (0);
+        return (0);
 }
