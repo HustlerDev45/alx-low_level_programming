@@ -1,5 +1,3 @@
-#include "hash_tables.h"
-
 /**
  * hash_djb2 - Implementation of the djb2 algorithm.
  * @str: String used to generate hash value.
